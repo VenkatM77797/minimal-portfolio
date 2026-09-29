@@ -117,7 +117,7 @@ function Index() {
                   href={hero.resumeUrl}
                   className="px-1 py-2 text-sm font-medium text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground"
                 >
-                  Download résumé
+                  Download Resume
                 </a>
               ) : null}
             </div>
