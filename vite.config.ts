@@ -5,12 +5,12 @@ import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { nitro } from "nitro/vite";
 
-// Plain Vite + TanStack Start config (no external wrapper).
 export default defineConfig(({ command }) => ({
   server: {
     host: "::",
     port: 8080,
   },
+
   resolve: {
     alias: {
       "@": new URL("./src", import.meta.url).pathname,
@@ -24,12 +24,24 @@ export default defineConfig(({ command }) => ({
       "@tanstack/query-core",
     ],
   },
+
   optimizeDeps: {
-    include: ["react", "react-dom", "react-dom/client", "react/jsx-runtime", "react/jsx-dev-runtime"],
+    include: [
+      "react",
+      "react-dom",
+      "react-dom/client",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+    ],
   },
+
   plugins: [
     tailwindcss(),
-    tsConfigPaths({ projects: ["./tsconfig.json"] }),
+
+    tsConfigPaths({
+      projects: ["./tsconfig.json"],
+    }),
+
     tanstackStart({
       importProtection: {
         behavior: "error",
@@ -39,9 +51,11 @@ export default defineConfig(({ command }) => ({
         },
       },
     }),
-    // Only needed for production builds that deploy a server (e.g. Vercel/Netlify/Cloudflare).
-    // Static hosts like GitHub Pages just serve the "dist/client" output and don't need this.
-    ...(command === "build" ? [nitro({ preset: "cloudflare-module" })] : []),
+
+    ...(command === "build"
+      ? [nitro({ preset: "vercel" })]
+      : []),
+
     viteReact(),
   ],
 }));
